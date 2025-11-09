@@ -1,5 +1,9 @@
 function HTMLActuator() {
   this.tileContainer    = document.querySelector(".tile-container");
+  this.tileNContainer    = document.querySelector(".tileN-container");
+  this.tileEContainer    = document.querySelector(".tileE-container");
+  this.tileSContainer    = document.querySelector(".tileS-container");
+  this.tileWContainer    = document.querySelector(".tileW-container");
   this.scoreContainer   = document.querySelector(".score-container");
   this.bestContainer    = document.querySelector(".best-container");
   this.messageContainer = document.querySelector(".game-message");
@@ -7,16 +11,28 @@ function HTMLActuator() {
   this.score = 0;
 }
 
-HTMLActuator.prototype.actuate = function (grid, metadata) {
+HTMLActuator.prototype.actuate = function (grid, gridUser, metadata) {
   var self = this;
 
   window.requestAnimationFrame(function () {
     self.clearContainer(self.tileContainer);
+    self.clearContainer(self.tileNContainer);
+    self.clearContainer(self.tileEContainer);
+    self.clearContainer(self.tileSContainer);
+    self.clearContainer(self.tileWContainer);
 
     grid.cells.forEach(function (column) {
       column.forEach(function (cell) {
         if (cell) {
           self.addTile(cell);
+        }
+      });
+    });
+
+    gridUser.cells.forEach(function (column) {
+      column.forEach(function (cell) {
+        if (cell) {
+          self.addUserTile(cell);
         }
       });
     });
@@ -43,6 +59,65 @@ HTMLActuator.prototype.continueGame = function () {
 HTMLActuator.prototype.clearContainer = function (container) {
   while (container.firstChild) {
     container.removeChild(container.firstChild);
+  }
+};
+
+HTMLActuator.prototype.addUserTile = function (tile) {
+  var self = this;
+
+  var wrapper   = document.createElement("div");
+  var inner     = document.createElement("div");
+  var position  = tile.previousPosition || { x: tile.x, y: tile.y };
+  var positionClass = this.userPositionClass(position);
+
+  // We can't use classlist because it somehow glitches when replacing classes
+  var classes = ["userTile", "userTile-" + tile.value, positionClass];
+
+  if (tile.value > 2048) classes.push("userTile-super");
+
+  this.applyClasses(wrapper, classes);
+
+  inner.classList.add("userTile-inner");
+  inner.textContent = tile.value;
+
+  if (tile.previousPosition) {
+    // Make sure that the tile gets rendered in the previous position first
+    window.requestAnimationFrame(function () {
+      classes[2] = self.userPositionClass({ x: tile.x, y: tile.y });
+      self.applyClasses(wrapper, classes); // Update the position
+    });
+  } else if (tile.mergedFrom) {
+    classes.push("userTile-merged");
+    this.applyClasses(wrapper, classes);
+
+    // Render the tiles that merged
+    tile.mergedFrom.forEach(function (merged) {
+      self.addTile(merged);
+    });
+  } else {
+    classes.push("userTile-new");
+    this.applyClasses(wrapper, classes);
+  }
+
+  // Add the inner part of the tile to the wrapper
+  wrapper.appendChild(inner);
+
+  // Put the tile on the board
+  console.log(classes);
+  switch (tile.x) {
+    case 0:
+      this.tileNContainer.appendChild(wrapper);
+      break;
+    case 1:
+      this.tileSContainer.appendChild(wrapper);
+      break;
+    case 2:
+      this.tileWContainer.appendChild(wrapper);
+      break;
+    case 3:
+      this.tileEContainer.appendChild(wrapper);
+      break;
+    default:
   }
 };
 
@@ -101,6 +176,11 @@ HTMLActuator.prototype.normalizePosition = function (position) {
 HTMLActuator.prototype.positionClass = function (position) {
   position = this.normalizePosition(position);
   return "tile-position-" + position.x + "-" + position.y;
+};
+
+HTMLActuator.prototype.userPositionClass = function (position) {
+  position = this.normalizePosition(position);
+  return "userTile-position-" + position.x + "-" + position.y;
 };
 
 HTMLActuator.prototype.updateScore = function (score) {

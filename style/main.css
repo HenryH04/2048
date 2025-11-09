@@ -191,6 +191,7 @@ hr {
   
 .game-container {
   margin: 40px;
+  opacity: .7;
   position: relative;
   padding: 15px;
   cursor: default;
@@ -375,6 +376,173 @@ hr {
   -moz-transform: translate(363px, 363px);
   -ms-transform: translate(363px, 363px);
   transform: translate(363px, 363px); }
+
+.userTile, .userTile .userTile-inner {
+  width: 107px;
+  height: 107px;
+  line-height: 107px; }
+.userTile.userTile-position-1-1 {
+  -webkit-transform: translate(14px, -122px);
+  -moz-transform: translate(14px, -122px);
+  -ms-transform: translate(14px, -122px);
+  transform: translate(14px, -122px); }
+.userTile.userTile-position-1-2 {
+  -webkit-transform: translate(136px, -122px);
+  -moz-transform: translate(136px, -122px);
+  -ms-transform: translate(136px, -122px);
+  transform: translate(136px, -122px); }
+.userTile.userTile-position-1-3 {
+  -webkit-transform: translate(257px, -122px);
+  -moz-transform: translate(257px, -122px);
+  -ms-transform: translate(257px, -122px);
+  transform: translate(257px, -122px); }
+.userTile.userTile-position-1-4 {
+  -webkit-transform: translate(378px, -122px);
+  -moz-transform: translate(378px, -122px);
+  -ms-transform: translate(378px, -122px);
+  transform: translate(378px, -122px); }
+.userTile.userTile-position-2-1 {
+  -webkit-transform: translate(15px, -122px);
+  -moz-transform: translate(15px, -122px);
+  -ms-transform: translate(15px, -122px);
+  transform: translate(15px, -122px); }
+.userTile.userTile-position-2-2 {
+  -webkit-transform: translate(135px, -122px);
+  -moz-transform: translate(135px, -122px);
+  -ms-transform: translate(135px, -122px);
+  transform: translate(135px, -122px); }
+.userTile.userTile-position-2-3 {
+  -webkit-transform: translate(257px, -122px);
+  -moz-transform: translate(257px, -122px);
+  -ms-transform: translate(257px, -122px);
+  transform: translate(257px, -122px); }
+.userTile.userTile-position-2-4 {
+  -webkit-transform: translate(378px, -122px);
+  -moz-transform: translate(378px, -122px);
+  -ms-transform: translate(378px, -122px);
+  transform: translate(378px, -122px); }
+.userTile.userTile-position-3-1 {
+  -webkit-transform: translate(-122px, 54px);
+  -moz-transform: translate(-122px, 54px);
+  -ms-transform: translate(-122px, 54px);
+  transform: translate(-122px, 54px); }
+.userTile.userTile-position-3-2 {
+  -webkit-transform: translate(-122px, 176px);
+  -moz-transform: translate(-122px, 176px);
+  -ms-transform: translate(-122px, 176px);
+  transform: translate(-122px, 176px); }
+.userTile.userTile-position-3-3 {
+  -webkit-transform: translate(-122px, 297.5px);
+  -moz-transform: translate(-122px, 297.5px);
+  -ms-transform: translate(-122px, 297.5px);
+  transform: translate(-122px, 297.5px); }
+.userTile.userTile-position-3-4 {
+  -webkit-transform: translate(-122px, 418px);
+  -moz-transform: translate(-122px, 418px);
+  -ms-transform: translate(-122px, 418px);
+  transform: translate(-122px, 418px); }
+.userTile.userTile-position-4-1 {
+  -webkit-transform: translate(-121.5px, 55px);
+  -moz-transform: translate(-121.5px, 55px);
+  -ms-transform: translate(-121.5px, 55px);
+  transform: translate(-121.5px, 55px); }
+.userTile.userTile-position-4-2 {
+  -webkit-transform: translate(-121.5px, 176px);
+  -moz-transform: translate(-121.5px, 176px);
+  -ms-transform: translate(-121.5px, 176px);
+  transform: translate(-121.5px, 176px); }
+.userTile.userTile-position-4-3 {
+  -webkit-transform: translate(-121.5px, 242px);
+  -moz-transform: translate(-121.5px, 242px);
+  -ms-transform: translate(-121.5px, 242px);
+  transform: translate(-121.5px, 298px); }
+.userTile.userTile-position-4-4 {
+  -webkit-transform: translate(-121.5px, 419px);
+  -moz-transform: translate(-121.5px, 419px);
+  -ms-transform: translate(-121.5px, 419px);
+  transform: translate(-121.5px, 419px); }
+
+.userTile {
+  position: absolute;
+  -webkit-transition: 100ms ease-in-out;
+  -moz-transition: 100ms ease-in-out;
+  transition: 100ms ease-in-out;
+  -webkit-transition-property: -webkit-transform;
+  -moz-transition-property: -moz-transform;
+  transition-property: transform; }
+  .userTile .userTile-inner {
+    border-radius: 3px;
+    background: #eee4da;
+    text-align: center;
+    font-weight: bold;
+    z-index: 10;
+    font-size: 55px; }
+  .userTile.userTile-2 .userTile-inner {
+    background: #eee4da;
+    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0); }
+  .userTile.userTile-4 .tile-inner {
+    background: #ede0c8;
+    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0); }
+  .userTile.userTile-8 .userTile-inner {
+    color: #f9f6f2;
+    background: #f2b179; }
+  .userTile.userTile-16 .userTile-inner {
+    color: #f9f6f2;
+    background: #f59563; }
+  .userTile.userTile-32 .userTile-inner {
+    color: #f9f6f2;
+    background: #f67c5f; }
+  .userTile.userTile-64 .userTile-inner {
+    color: #f9f6f2;
+    background: #f65e3b; }
+  .userTile.userTile-128 .userTile-inner {
+    color: #f9f6f2;
+    background: #edcf72;
+    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.2381), inset 0 0 0 1px rgba(255, 255, 255, 0.14286);
+    font-size: 45px; }
+    @media screen and (max-width: 520px) {
+      .userTile.userTile-128 .userTile-inner {
+        font-size: 25px; } }
+  .userTile.userTile-256 .userTile-inner {
+    color: #f9f6f2;
+    background: #edcc61;
+    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.31746), inset 0 0 0 1px rgba(255, 255, 255, 0.19048);
+    font-size: 45px; }
+    @media screen and (max-width: 520px) {
+      .userTile.userTile-256 .userTile-inner {
+        font-size: 25px; } }
+  .userTile.userTile-512 .userTile-inner {
+    color: #f9f6f2;
+    background: #edc850;
+    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.39683), inset 0 0 0 1px rgba(255, 255, 255, 0.2381);
+    font-size: 45px; }
+    @media screen and (max-width: 520px) {
+      .userTile.userTile-512 .userTile-inner {
+        font-size: 25px; } }
+  .userTile.userTile-1024 .userTile-inner {
+    color: #f9f6f2;
+    background: #edc53f;
+    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.47619), inset 0 0 0 1px rgba(255, 255, 255, 0.28571);
+    font-size: 35px; }
+    @media screen and (max-width: 520px) {
+      .userTile.userTile-1024 .userTile-inner {
+        font-size: 15px; } }
+  .userTile.userTile-2048 .userTile-inner {
+    color: #f9f6f2;
+    background: #edc22e;
+    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.55556), inset 0 0 0 1px rgba(255, 255, 255, 0.33333);
+    font-size: 35px; }
+    @media screen and (max-width: 520px) {
+      .userTile.userTile-2048 .userTile-inner {
+        font-size: 15px; } }
+  .userTile.userTile-super .userTile-inner {
+    color: #f9f6f2;
+    background: #3c3a32;
+    font-size: 30px; }
+    @media screen and (max-width: 520px) {
+      .userTile.userTile-super .userTile-inner {
+        font-size: 10px; } }
+
 
 .tile {
   position: absolute;
@@ -876,6 +1044,93 @@ hr {
   .tile .tile-inner {
     font-size: 35px; }
 
+  .userTile, .userTile .userTile-inner {
+    width: 58px;
+    height: 58px;
+    line-height: 58px; }
+  .userTile.userTile-position-1-1 {
+    -webkit-transform: translate(10px, -68px);
+    -moz-transform: translate(10px, -68px);
+    -ms-transform: translate(10px, -68px);
+    transform: translate(10px, -68px); }
+  .userTile.userTile-position-1-2 {
+    -webkit-transform: translate(77px, -68px);
+    -moz-transform: translate(77px, -68px);
+    -ms-transform: translate(77px, -68px);
+    transform: translate(77px, -68px); }
+  .userTile.userTile-position-1-3 {
+    -webkit-transform: translate(145px, -68px);
+    -moz-transform: translate(145px, -68px);
+    -ms-transform: translate(145px, -68px);
+    transform: translate(145px, -68px); }
+  .userTile.userTile-position-1-4 {
+    -webkit-transform: translate(212px, -68px);
+    -moz-transform: translate(212px, -68px);
+    -ms-transform: translate(212px, -68px);
+    transform: translate(212px, -68px); }
+  .userTile.userTile-position-2-1 {
+    -webkit-transform: translate(10px, -68px);
+    -moz-transform: translate(10px, -68px);
+    -ms-transform: translate(10px, -68px);
+    transform: translate(10px, -68px); }
+  .userTile.userTile-position-2-2 {
+    -webkit-transform: translate(77px, -68px);
+    -moz-transform: translate(77px, -68px);
+    -ms-transform: translate(77px, -68px);
+    transform: translate(77px, -68px); }
+  .userTile.userTile-position-2-3 {
+    -webkit-transform: translate(145px, -68px);
+    -moz-transform: translate(145px, -68px);
+    -ms-transform: translate(145px, -68px);
+    transform: translate(145px, -68px); }
+  .userTile.userTile-position-2-4 {
+    -webkit-transform: translate(212px, -68px);
+    -moz-transform: translate(212px, -68px);
+    -ms-transform: translate(212px, -68px);
+    transform: translate(212px, -68px); }
+  .userTile.userTile-position-3-1 {
+    -webkit-transform: translate(-68px, 27px);
+    -moz-transform: translate(-68px, 27px);
+    -ms-transform: translate(-68px, 27px);
+    transform: translate(-68px, 27px); }
+  .userTile.userTile-position-3-2 {
+    -webkit-transform: translate(-68px, 94px);
+    -moz-transform: translate(--68px, 94px);
+    -ms-transform: translate(-68px, 94px);
+    transform: translate(-68px, 94px); }
+  .userTile.userTile-position-3-3 {
+    -webkit-transform: translate(-68px, 162px);
+    -moz-transform: translate(-68px, 162px);
+    -ms-transform: translate(-68px, 162px);
+    transform: translate(-68px, 162px); }
+  .userTile.userTile-position-3-4 {
+    -webkit-transform: translate(-68px, 229px);
+    -moz-transform: translate(-68px, 229px);
+    -ms-transform: translate(-68px, 229px);
+    transform: translate(-68px, 229px); }
+  .userTile.userTile-position-4-1 {
+    -webkit-transform: translate(-68px, 27px);
+    -moz-transform: translate(-68px, 27px);
+    -ms-transform: translate(-68px, 27px);
+    transform: translate(-68px, 27px); }
+  .userTile.userTile-position-4-2 {
+    -webkit-transform: translate(-68px, 94px);
+    -moz-transform: translate(-68px, 94px);
+    -ms-transform: translate(-68px, 94px);
+    transform: translate(-68px, 94px); }
+  .userTile.userTile-position-4-3 {
+    -webkit-transform: translate(-68px, 162px);
+    -moz-transform: translate(-68px, 162px);
+    -ms-transform: translate(-68px, 162px);
+    transform: translate(-68px, 162px); }
+  .userTile.userTile-position-4-4 {
+    -webkit-transform: translate(-68px, 229px);
+    -moz-transform: translate(-68px, 229px);
+    -ms-transform: translate(-68px, 229px);
+    transform: translate(-68px, 229px); }
+
+  .userTile .userTile-inner {
+    font-size: 35px; }
   .game-message p {
     font-size: 30px !important;
     height: 30px !important;
