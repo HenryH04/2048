@@ -49,16 +49,26 @@ KeyboardInputManager.prototype.listen = function () {
     65: 3  // A
   };
 
+  var user = {
+    81: 0, // Q
+    69: 1  // E
+  }
+
   // Respond to direction keys
   document.addEventListener("keydown", function (event) {
     var modifiers = event.altKey || event.ctrlKey || event.metaKey ||
                     event.shiftKey;
     var mapped    = map[event.which];
+    var userIn    = user[event.which];
 
     if (!modifiers) {
       if (mapped !== undefined) {
         event.preventDefault();
         self.emit("move", mapped);
+      }
+      if (userIn !== undefined) {
+        event.preventDefault();
+        self.emit("rotate", userIn);
       }
     }
 

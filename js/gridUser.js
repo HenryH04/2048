@@ -57,6 +57,18 @@ GridUser.prototype.availableCells = function () {
   return cells;
 };
 
+GridUser.prototype.unavailableCells = function () {
+  var cells = [];
+
+  this.eachCell(function (x, y, tile) {
+    if (tile) {
+      cells.push({ x: x, y: y });
+    }
+  });
+
+  return cells;
+};
+
 // Call callback for every cell
 GridUser.prototype.eachCell = function (callback) {
   for (var x = 0; x < this.userSize; x++) {
