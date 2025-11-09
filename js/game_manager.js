@@ -9,6 +9,7 @@ function GameManager(size, userSize, InputManager, Actuator, StorageManager) {
   this.userStartTiles = 1;
 
   this.inputManager.on("move", this.move.bind(this));
+  this.inputManager.on("rotate", this.rotate.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
   this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
 
@@ -61,6 +62,7 @@ GameManager.prototype.setup = function () {
 
   // Update the actuator
   this.actuate();
+  this.actuateUser();
 };
 
 // Set up the initial tiles to start the game with
@@ -107,7 +109,19 @@ GameManager.prototype.actuate = function () {
     this.storageManager.setGameState(this.serialize());
   }
 
-  this.actuator.actuate(this.grid, this.gridUser, {
+  this.actuator.actuate(this.grid, {
+    score:      this.score,
+    over:       this.over,
+    won:        this.won,
+    bestScore:  this.storageManager.getBestScore(),
+    terminated: this.isGameTerminated()
+  });
+
+};
+
+// Sends the updated usergrid to the actuator
+GameManager.prototype.actuateUser = function () {
+  this.actuator.actuateUser(this.gridUser, {
     score:      this.score,
     over:       this.over,
     won:        this.won,
@@ -137,7 +151,10 @@ GameManager.prototype.prepareTiles = function () {
       tile.savePosition();
     }
   });
+};
 
+// Save all tile positions and remove merger info
+GameManager.prototype.prepareUserTiles = function () {
   this.gridUser.eachCell(function (x, y, tile) {
     if (tile) {
       tile.mergedFrom = null;
@@ -150,6 +167,13 @@ GameManager.prototype.prepareTiles = function () {
 GameManager.prototype.moveTile = function (tile, cell) {
   this.grid.cells[tile.x][tile.y] = null;
   this.grid.cells[cell.x][cell.y] = tile;
+  tile.updatePosition(cell);
+};
+
+// Move a tile and its representation
+GameManager.prototype.moveUserTile = function (tile, cell) {
+  this.gridUser.cells[tile.x][tile.y] = null;
+  this.gridUser.cells[cell.x][cell.y] = tile;
   tile.updatePosition(cell);
 };
 
@@ -217,6 +241,39 @@ GameManager.prototype.move = function (direction) {
   }
 };
 
+// Rotates tiles on the grid in the specified direction
+GameManager.prototype.rotate = function (direction) {
+  // 0: counter-clockwise, 1: clockwise
+  var self = this;
+
+
+  if (this.isGameTerminated()) return; // Don't do anything if the game's over
+
+  var cell, tile;
+  var occupiedCells = this.gridUser.unavailableCells();
+  var moved = false;
+
+  // Save the current tile positions and remove merger information
+  this.prepareUserTiles();
+
+  occupiedCells.forEach((occupied) => {
+    cell = { x: occupied.x, y: occupied.y };
+    tile = self.gridUser.cellContent(cell);
+
+    var rotation = this.getRotation(direction, tile.x);
+    var newCell = { x: tile.x+rotation, y: tile.y};
+    self.moveUserTile(tile, newCell);
+    
+    if (!self.positionsEqual(cell, tile)) {
+      moved = true; // The tile moved from its original cell!
+    }
+  })
+ 
+  if (moved) {
+    this.actuateUser();
+  }
+}
+
 // Get the vector representing the chosen direction
 GameManager.prototype.getVector = function (direction) {
   // Vectors representing tile movement
@@ -228,6 +285,31 @@ GameManager.prototype.getVector = function (direction) {
   };
 
   return map[direction];
+};
+
+// Get the vector representing the chosen rotation
+GameManager.prototype.getRotation = function (direction, row) {
+  // Vectors representing tile movement
+  var map = {};
+
+  if (direction == 1) {
+    // clockwise
+    map = {
+      0: 3,  // N -> E
+      1: 1,  // E -> S
+      2: -2,  // S -> W
+      3: -2  // W -> N
+    }
+  } else {
+    // counter-clockwise
+    map = {
+      0: 2 , // N -> W
+      1: 2, // W -> S
+      2: -1,  // S -> E
+      3: -3    // E -> N
+    }}
+
+  return map[row];
 };
 
 // Build a list of positions to traverse in the right order

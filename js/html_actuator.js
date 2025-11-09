@@ -11,28 +11,16 @@ function HTMLActuator() {
   this.score = 0;
 }
 
-HTMLActuator.prototype.actuate = function (grid, gridUser, metadata) {
+HTMLActuator.prototype.actuate = function (grid, metadata) {
   var self = this;
 
   window.requestAnimationFrame(function () {
     self.clearContainer(self.tileContainer);
-    self.clearContainer(self.tileNContainer);
-    self.clearContainer(self.tileEContainer);
-    self.clearContainer(self.tileSContainer);
-    self.clearContainer(self.tileWContainer);
 
     grid.cells.forEach(function (column) {
       column.forEach(function (cell) {
         if (cell) {
           self.addTile(cell);
-        }
-      });
-    });
-
-    gridUser.cells.forEach(function (column) {
-      column.forEach(function (cell) {
-        if (cell) {
-          self.addUserTile(cell);
         }
       });
     });
@@ -48,6 +36,25 @@ HTMLActuator.prototype.actuate = function (grid, gridUser, metadata) {
       }
     }
 
+  });
+};
+
+HTMLActuator.prototype.actuateUser = function (gridUser, metadata) {
+  var self = this;
+
+  window.requestAnimationFrame(function () {
+    self.clearContainer(self.tileNContainer);
+    self.clearContainer(self.tileEContainer);
+    self.clearContainer(self.tileSContainer);
+    self.clearContainer(self.tileWContainer);
+
+    gridUser.cells.forEach(function (column) {
+      column.forEach(function (cell) {
+        if (cell) {
+          self.addUserTile(cell);
+        }
+      });
+    });
   });
 };
 
@@ -103,7 +110,6 @@ HTMLActuator.prototype.addUserTile = function (tile) {
   wrapper.appendChild(inner);
 
   // Put the tile on the board
-  console.log(classes);
   switch (tile.x) {
     case 0:
       this.tileNContainer.appendChild(wrapper);
