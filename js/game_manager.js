@@ -1,10 +1,12 @@
-function GameManager(size, InputManager, Actuator, StorageManager) {
+function GameManager(size, userSize, InputManager, Actuator, StorageManager) {
   this.size           = size; // Size of the grid
+  this.userSize       = userSize // Size of the user's controls
   this.inputManager   = new InputManager;
   this.storageManager = new StorageManager;
   this.actuator       = new Actuator;
 
-  this.startTiles     = 2;
+  this.startTiles     = 8;
+  this.userStartTiles = 1;
 
   this.inputManager.on("move", this.move.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
@@ -39,12 +41,15 @@ GameManager.prototype.setup = function () {
   if (previousState) {
     this.grid        = new Grid(previousState.grid.size,
                                 previousState.grid.cells); // Reload grid
+    this.gridUser    = new GridUser(previousState.gridUser.userSize,
+                                    previousState.gridUser.cells); // Reload user grid
     this.score       = previousState.score;
     this.over        = previousState.over;
     this.won         = previousState.won;
     this.keepPlaying = previousState.keepPlaying;
   } else {
     this.grid        = new Grid(this.size);
+    this.gridUser    = new GridUser(this.userSize);
     this.score       = 0;
     this.over        = false;
     this.won         = false;
@@ -63,6 +68,10 @@ GameManager.prototype.addStartTiles = function () {
   for (var i = 0; i < this.startTiles; i++) {
     this.addRandomTile();
   }
+
+  for (var i = 0; i < this.userStartTiles; i++) {
+    this.addRandomUserTile();
+  }
 };
 
 // Adds a tile in a random position
@@ -74,6 +83,16 @@ GameManager.prototype.addRandomTile = function () {
     this.grid.insertTile(tile);
   }
 };
+
+// Adds a user tile in a random position
+GameManager.prototype.addRandomUserTile = function () {
+  if (this.gridUser.cellsAvailable()) {
+    var value = Math.random() < 0.9 ? 2 : 4;
+    var userTile = new Tile(this.gridUser.randomAvailableCell(), value);
+
+    this.gridUser.insertTile(userTile);
+  }
+}
 
 // Sends the updated grid to the actuator
 GameManager.prototype.actuate = function () {
@@ -88,7 +107,7 @@ GameManager.prototype.actuate = function () {
     this.storageManager.setGameState(this.serialize());
   }
 
-  this.actuator.actuate(this.grid, {
+  this.actuator.actuate(this.grid, this.gridUser, {
     score:      this.score,
     over:       this.over,
     won:        this.won,
@@ -102,6 +121,7 @@ GameManager.prototype.actuate = function () {
 GameManager.prototype.serialize = function () {
   return {
     grid:        this.grid.serialize(),
+    gridUser:    this.gridUser.serialize(),
     score:       this.score,
     over:        this.over,
     won:         this.won,
@@ -112,6 +132,13 @@ GameManager.prototype.serialize = function () {
 // Save all tile positions and remove merger info
 GameManager.prototype.prepareTiles = function () {
   this.grid.eachCell(function (x, y, tile) {
+    if (tile) {
+      tile.mergedFrom = null;
+      tile.savePosition();
+    }
+  });
+
+  this.gridUser.eachCell(function (x, y, tile) {
     if (tile) {
       tile.mergedFrom = null;
       tile.savePosition();
